@@ -4,17 +4,17 @@ const { ErrorResponse, SuccessResponse } = require('../utils/common');
 
 async function createBooking(req, res) {
     try {
-        console.log("hi");
-        console.log(req.body);
-        console.log("after req.body");
+        //console.log("hi");
+        //console.log(req.body);
+        //console.log("after req.body");
         const response = await BookingService.createBooking({
             flightId: req.body.flightId,
             userId: req.body.userId,
             noOfSeats: req.body.noOfSeats
         });
-        console.log('SuccessResponse object is: ',SuccessResponse);
+        //console.log('SuccessResponse object is: ',SuccessResponse);
         SuccessResponse.data = response;
-        console.log('second SuccessResponse object is: ',SuccessResponse);
+        //console.log('second SuccessResponse object is: ',SuccessResponse);
         return res                                          
                 .status(StatusCodes.OK)                
                 .json(SuccessResponse)
