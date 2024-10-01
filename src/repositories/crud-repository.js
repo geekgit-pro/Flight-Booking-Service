@@ -11,9 +11,6 @@ class CrudRepository {
     async create(data) {
         const response = await this.model.create(data);
         return response;
-
-        
-
     }
 
     async destroy(data) {
@@ -29,13 +26,11 @@ class CrudRepository {
     }
     
     async get(data) {
-
         const response  = await this.model.findByPk(data);
         if(!response) {
             throw new AppError('Could not fetch airplane data', StatusCodes.NOT_FOUND);
         }
         return response;
-
     }
 
     async getAll() {
