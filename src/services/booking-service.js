@@ -90,30 +90,53 @@ async function cancelBooking(bookingId) {
     const transaction = await db.sequelize.transaction();
 
     try {
-        console.log('bookingId value is:   ', bookingId);
-        //console.log('data.bookingId value is:   ', data.bookingId);
         const bookingDetails = await bookingRepository.get(bookingId, transaction);
-        console.log('bookingDetails value is:     ', bookingDetails);
         if(bookingDetails.status == CANCELLED) {
             await transaction.commit();
             return true;
         }
-        //console.log('data.flightId value is:   ', data.flightId);
-        console.log('bookingDetails.flightId value is:   ', bookingDetails.flightId);
         await axios.patch(`${ServerConfig.FLIGHT_SERVICE}/api/v1/flights/${bookingDetails.flightId}/seats`, {
             seats: bookingDetails.noOfSeats,
             dec: 0
         });
-        //console.log('data.bookingId value is:   ', data.bookingId);
         await bookingRepository.update(bookingId, {status: CANCELLED}, transaction);
-        //console.log('data.bookingId value is:   ', data.bookingId);
-        //await transaction.commit();
-
     } catch (error) {
         await transaction.rollback();
         throw error;
     }
 }
+
+
+// async function cancelBooking(bookingId) {
+//     console.log('hi');
+//     const transaction = await db.sequelize.transaction();
+
+//     try {
+//         console.log('bookingId value is:   ', bookingId);
+//         //console.log('data.bookingId value is:   ', data.bookingId);
+//         const bookingDetails = await bookingRepository.get(bookingId, transaction);
+//         console.log('bookingDetails value is:     ', bookingDetails);
+//         if(bookingDetails.status == CANCELLED) {
+//             await transaction.commit();
+//             return true;
+//         }
+//         //console.log('data.flightId value is:   ', data.flightId);
+//         console.log('bookingDetails.flightId value is:   ', bookingDetails.flightId);
+//         await axios.patch(`${ServerConfig.FLIGHT_SERVICE}/api/v1/flights/${bookingDetails.flightId}/seats`, {
+//             seats: bookingDetails.noOfSeats,
+//             dec: 0
+//         });
+//         //console.log('data.bookingId value is:   ', data.bookingId);
+//         await bookingRepository.update(bookingId, {status: CANCELLED}, transaction);
+//         //console.log('data.bookingId value is:   ', data.bookingId);
+//         //await transaction.commit();
+
+//     } catch (error) {
+//         await transaction.rollback();
+//         throw error;
+//     }
+// }
+
 
 
 //  async function createBooking(data) {
