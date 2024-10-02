@@ -107,6 +107,18 @@ async function cancelBooking(bookingId) {
 }
 
 
+async function cancelOldBookings() {
+    try {
+        const currentTime = new Date(Date.now() - 1000 * 300);
+        const response = await bookingRepository.cancelOldBookings(currentTime);
+        return response;
+    } catch (error) {
+        console.log(error);
+        //throw error;
+    }
+}
+
+
 // async function cancelBooking(bookingId) {
 //     console.log('hi');
 //     const transaction = await db.sequelize.transaction();
@@ -195,5 +207,7 @@ async function cancelBooking(bookingId) {
 
 module.exports = {
     createBooking,
-    makePayment
+    makePayment,
+    //cancelBooking
+    cancelOldBookings
 }
